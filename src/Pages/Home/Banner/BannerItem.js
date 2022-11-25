@@ -21,7 +21,7 @@ const BannerItem = ({ slide }) => {
           Bicycle!
           <br />
           We help users buy and sell bicycle & We ensure safe, smart and easy
-          solutions for customers across more than 50 different categories.
+          solutions for customers across different categories.
         </p>
       </div>
       <div className="absolute flex justify-end transform -translate-y-1/2 left-5 right-5 bottom-0">

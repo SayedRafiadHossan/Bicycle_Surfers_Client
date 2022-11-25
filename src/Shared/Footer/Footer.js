@@ -139,7 +139,7 @@ const Footer = () => {
         </div>
         <div className="flex items-center justify-center px-6 pt-12 text-sm">
           <span className="dark:text-gray-400">
-            © Copyright Sayed Rafiad Hossan All Rights Reserved.
+            © Copyright Sayed Rafiad Hossan, All Rights Reserved.
           </span>
         </div>
       </footer>

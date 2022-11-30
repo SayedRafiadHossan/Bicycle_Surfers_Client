@@ -1,8 +1,33 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Contexts/AuthProvider";
 import img from "../../Images/login.webp";
 
 const Login = () => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+
+  const { signIn } = useContext(AuthContext);
+  const [loginError, setLoginError] = useState("");
+
+  const handleLogin = (data) => {
+    console.log(data);
+    setLoginError("");
+    signIn(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setLoginError(error.message);
+      });
+  };
+
   return (
     <div>
       <section>
@@ -13,28 +38,42 @@ const Login = () => {
             </div>
             <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100 py-10">
               <h1 className="text-center text-5xl font-bold">Login now!</h1>
-              <form className="card-body">
+              <form onSubmit={handleSubmit(handleLogin)} className="card-body">
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">Email</span>
                   </label>
                   <input
                     type="text"
-                    name="email"
+                    {...register("email", {
+                      required: "Email Address is required",
+                    })}
                     placeholder="E-mail"
                     className="input input-bordered"
                   />
                 </div>
+                {errors.email && (
+                  <p className="text-red-600">{errors.email?.message}</p>
+                )}
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">Password</span>
                   </label>
                   <input
                     type="password"
-                    name="password"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be 6 characters or longer",
+                      },
+                    })}
                     placeholder="Password"
                     className="input input-bordered"
                   />
+                  {errors.password && (
+                    <p className="text-red-600">{errors.password?.message}</p>
+                  )}
                   <label className="label">
                     <Link href="#" className="label-text-alt link link-hover">
                       Forgot password?
@@ -48,8 +87,10 @@ const Login = () => {
                     value="Login"
                   />
                 </div>
+                <div>
+                  {loginError && <p className="text-red-600">{loginError}</p>}
+                </div>
               </form>
-
               <div className="flex items-center space-x-1">
                 <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
                 <p className=" text-sm dark:text-gray-400">

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import img1 from "../../../Images/banner1.jpg";
 import img2 from "../../../Images/banner2.jpg";
 import img3 from "../../../Images/banner3.jpg";
@@ -45,12 +46,14 @@ const Banner = () => {
               >
                 Categories
               </button>
-              <button
-                type="button"
-                className="px-8 py-3 m-2 text-lg border rounded dark:border-gray-700 dark:text-gray-900"
-              >
-                Market Place
-              </button>
+              <Link to="/card">
+                <button
+                  type="button"
+                  className="px-8 py-3 m-2 text-lg border rounded dark:border-gray-700 dark:text-gray-900"
+                >
+                  Market Place
+                </button>
+              </Link>
             </div>
           </div>
         </div>

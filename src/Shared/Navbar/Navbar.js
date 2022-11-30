@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Contexts/AuthProvider";
 import img1 from "../../Images/logo.png";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((err) => console.log(err));
+  };
   return (
     <div className="navbar bg-slate-100">
       <div className="dropdown lg:hidden">
@@ -46,7 +53,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/marketPlace"
+                to="/card"
                 className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 Market Place
@@ -107,10 +114,10 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/marketPlace"
+                to="/card"
                 className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
-                Market Place
+                Categories Card
               </Link>
             </li>
             <li>
@@ -121,22 +128,25 @@ const Navbar = () => {
                 Blog
               </Link>
             </li>
-            <li>
-              <Link
-                to="/login"
-                className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Log In
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/signup"
-                className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Sign Up
-              </Link>
-            </li>
+            {user?.uid ? (
+              <li>
+                <button
+                  onClick={handleLogOut}
+                  className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >
+                  Sign Out
+                </button>
+              </li>
+            ) : (
+              <li>
+                <Link
+                  to="/login"
+                  className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >
+                  Log In
+                </Link>
+              </li>
+            )}
           </>
         </ul>
       </div>

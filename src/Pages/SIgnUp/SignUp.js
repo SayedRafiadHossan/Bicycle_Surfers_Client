@@ -4,6 +4,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import img from "../../Images/signup.webp";
 
+const handelGoogleSignUp = (signInWithGoogle, location, navigate) => {
+  signInWithGoogle(location, navigate);
+};
+
 const SignUp = () => {
   const {
     register,
@@ -120,7 +124,13 @@ const SignUp = () => {
             </Link>
           </p>
           <div className="flex mx-auto mt-4 mb-2 ">
-            <button aria-label="Log in with Google" className="p-3 rounded-sm">
+            <button
+              aria-label="Log in with Google"
+              className="p-3 rounded-sm"
+              onClick={() =>
+                handelGoogleSignUp(signInWithGoogle, location, navigate)
+              }
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 32 32"

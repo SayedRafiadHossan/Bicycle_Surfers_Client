@@ -21,6 +21,10 @@ const Login = () => {
     loginUser(data.email, data.password, location, navigate);
   };
 
+  const handelGoogleSignUp = (signInWithGoogle, location, navigate) => {
+    signInWithGoogle(location, navigate);
+  };
+
   return (
     <div>
       <section>
@@ -95,6 +99,9 @@ const Login = () => {
                 <button
                   aria-label="Log in with Google"
                   className="p-3 rounded-sm"
+                  onClick={() =>
+                    handelGoogleSignUp(signInWithGoogle, location, navigate)
+                  }
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

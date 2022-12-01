@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { AuthContext } from "../../Contexts/AuthProvider";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 import img from "../../Images/signup.webp";
 
 const SignUp = () => {
@@ -10,15 +10,13 @@ const SignUp = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const { createUser } = useContext(AuthContext);
+  const { user, registerUser, authError, isLoading, signInWithGoogle } =
+    useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleSignUp = (data) => {
-    console.log(data);
-    createUser(data.email, data.password)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-      })
-      .catch((error) => console.log(error));
+    registerUser(data?.email, data?.password, data?.name, navigate);
   };
 
   return (
@@ -81,6 +79,32 @@ const SignUp = () => {
             {errors.password && (
               <p className="text-red-600">{errors.password?.message}</p>
             )}
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Account Type</span>
+              </label>
+              <div className="grid grid-cols-2">
+                <label className="cursor-pointer flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="acc-selection"
+                    id="buyer-acc"
+                    className="radio"
+                    checked="checked"
+                  />
+                  <span className="label-text">Buyer</span>
+                </label>
+                <label className="cursor-pointer flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="acc-selection"
+                    id="seller-acc"
+                    className="radio"
+                  />
+                  <span className="label-text">Seller</span>
+                </label>
+              </div>
+            </div>
             <div className="form-control mt-6">
               <input
                 className="btn btn-primary"

@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { AuthContext } from "../../Contexts/AuthProvider";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 import img from "../../Images/login.webp";
 
 const Login = () => {
@@ -11,21 +11,14 @@ const Login = () => {
     handleSubmit,
   } = useForm();
 
-  const { signIn } = useContext(AuthContext);
+  const { signInWithGoogle, loginUser, isLoading, authError } = useAuth();
   const [loginError, setLoginError] = useState("");
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleLogin = (data) => {
-    console.log(data);
-    setLoginError("");
-    signIn(data.email, data.password)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        console.log(error.message);
-        setLoginError(error.message);
-      });
+    loginUser(data.email, data.password, location, navigate);
   };
 
   return (

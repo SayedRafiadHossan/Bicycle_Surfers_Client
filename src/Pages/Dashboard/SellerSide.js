@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import { Link, useParams } from "react-router-dom";
 
 const productHandler = (user) => {
   const itemName = document.getElementById("item-name").value;
@@ -19,7 +22,7 @@ const productHandler = (user) => {
   const itemDate = new Date().getTime();
   const itemSeller = user?.displayName;
 
-  console.log(
+  const data = {
     itemName,
     itemRetailPrice,
     itemOriginalPrice,
@@ -27,37 +30,41 @@ const productHandler = (user) => {
     itemLocation,
     itemImage,
     itemCategory,
-    itemLocation,
     itemDate,
-    itemSeller
-  );
+    itemSeller,
+  };
+
+  axios.post("http://localhost:5000/addProduct", data).then((res) => {
+    if (res.status === 200) {
+      document.getElementById("item-name").value = "";
+      document.getElementById("item-resell-price").value = "";
+      document.getElementById("item-original-price").value = "";
+      document.getElementById("item-years-used").value = "";
+      document.getElementById("item-Location").value = "";
+      document.getElementById("item-image").value = "";
+      toast.success("Added Successfully");
+    }
+  });
 };
 
 const SellerSide = () => {
   const { user } = useAuth();
-  const [page, setPage] = useState("add-products");
+  const pageParam = useParams().page;
   return (
     <div>
+      <div>
+        <Toaster />
+      </div>
       <div className="flex items-center justify-end gap-3 mt-10 px-5">
-        <button
-          className="btn btn-sm"
-          onClick={() => {
-            setPage("add-products");
-          }}
-        >
+        <Link to="/dashboard/add-product" className="btn btn-sm">
           Add Product
-        </button>
-        <button
-          className="btn btn-sm"
-          onClick={() => {
-            setPage("my-products");
-          }}
-        >
+        </Link>
+        <Link to="/dashboard/my-products" className="btn btn-sm">
           My Products
-        </button>
+        </Link>
       </div>
 
-      {page === "add-products" ? (
+      {pageParam === "add-product" ? (
         <div className="m-10">
           <h1 className="mt-10 text-3xl font-semibold text-center">
             Add Products
@@ -120,7 +127,7 @@ const SellerSide = () => {
             </div>
           </div>
         </div>
-      ) : (
+      ) : pageParam === "my-products" ? (
         <div className="m-10">
           <h1 className="mt-10 text-3xl font-semibold text-center">
             My Products
@@ -155,6 +162,8 @@ const SellerSide = () => {
             </div>
           </div>
         </div>
+      ) : (
+        ""
       )}
     </div>
   );

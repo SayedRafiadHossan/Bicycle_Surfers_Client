@@ -1,49 +1,84 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
-const paymentHandler = () => {
+const paymentHandler = (productId) => {
   const cardName = document.getElementById("card-name").value;
   const cardNumber = document.getElementById("card-number").value;
-  toast.success("Payment Done");
 
-  console.log(cardName, cardNumber);
+  const finalData = { cardName, cardNumber, productId };
+
+  fetch(`http://localhost:5000/booking/${productId}`, {
+    method: "PUT",
+    headers: { "content-type": "application/json" },
+    // body: JSON.stringify(user),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+    });
+
+  // axios.post("http://localhost:5000/payment", finalData).then((res) => {
+  //   if (res.data.insertedId) {
+  //     toast.success("Payment Successful");
+  //   }
+  // });
 };
 
 const BuyerSide = () => {
+  const [myOrders, setMyOrders] = useState();
+  const [productId, setProductId] = useState();
+  useEffect(() => {
+    fetch("http://localhost:5000/booking")
+      .then((res) => res.json())
+      .then((data) => setMyOrders(data));
+  }, []);
   return (
     <>
       <div>
         <Toaster />
       </div>
       <h1 className="mt-10 text-3xl font-semibold text-center">My Orders</h1>
-      <div className="grid grid-cols-3 justify-between m-10">
-        <div className="max-w-lg p-4 shadow-md bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <img
-                src="https://i.ibb.co/njZ85xf/logo.png"
-                alt=""
-                className="block object-cover object-center w-full rounded-md h-72 dark:bg-gray-500"
-              />
-            </div>
-            <div className="flex justify-between">
-              <h3 className="text-xl font-semibold dark:text-teal-400">
-                Road Cycle
-              </h3>
-              <h3 className="text-xl font-semibold dark:text-teal-400">
-                Price: 1000
-              </h3>
-              <button
-                className="btn btn-sm"
-                onClick={() => {
-                  document.getElementById("card-info-modal").checked = true;
-                }}
-              >
-                Pay
-              </button>
+      <div className="grid grid-cols-3 justify-between m-10 gap-10">
+        {myOrders?.map((x) => (
+          <div
+            key={myOrders.indexOf(x)}
+            className="max-w-lg p-4 shadow-md bg-gray-100 dark:bg-gray-900 dark:text-gray-100"
+          >
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <img
+                  src={x?.image}
+                  alt={x?.itemName}
+                  className="block object-cover object-center w-full rounded-md h-72 dark:bg-gray-500"
+                />
+              </div>
+              <div className="flex justify-between">
+                <h3 className="text-xl font-semibold dark:text-teal-400">
+                  {x?.itemName}
+                </h3>
+                <h3 className="text-xl font-semibold dark:text-teal-400">
+                  Price: {x?.resalePrice}
+                </h3>
+                <button
+                  className={
+                    x?.paid === false
+                      ? "btn btn-sm"
+                      : "btn btn-sm bg-success border-success"
+                  }
+                  onClick={() => {
+                    if (x?.paid === false) {
+                      setProductId(x?._id);
+                      document.getElementById("card-info-modal").checked = true;
+                    }
+                  }}
+                >
+                  {x?.paid === false ? "Pay" : "Paid"}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
 
       {/* modal */}
@@ -76,7 +111,7 @@ const BuyerSide = () => {
             <button
               className="btn btn-sm btn-info"
               onClick={() => {
-                paymentHandler();
+                paymentHandler(productId);
                 document.getElementById("card-info-modal").checked = false;
               }}
             >

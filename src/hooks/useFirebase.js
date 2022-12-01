@@ -32,7 +32,7 @@ const useFirebase = () => {
   const googleProvider = new GoogleAuthProvider();
 
   // register new user
-  const registerUser = (email, password, name, navigate) => {
+  const registerUser = (email, password, name, role, navigate) => {
     setIsLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -41,7 +41,7 @@ const useFirebase = () => {
         setUser(newUser);
 
         // // save user to the database
-        saveUser(email, name, "POST");
+        saveUser(email, name, role, "POST");
 
         // send name to firebase after creation
         updateProfile(auth.currentUser, {
@@ -74,12 +74,12 @@ const useFirebase = () => {
   };
 
   // google sign in
-  const signInWithGoogle = (location, navigate) => {
+  const signInWithGoogle = (role, location, navigate) => {
     setIsLoading(true);
     signInWithPopup(auth, googleProvider)
       .then((result) => {
         const user = result.user;
-        saveUser(user.email, user.displayName, "PUT");
+        saveUser(user.email, user.displayName, role, "PUT");
         setAuthError("");
         const destination = location?.state?.from || "/";
         navigate(destination);
@@ -117,8 +117,8 @@ const useFirebase = () => {
   };
 
   // saved user function
-  const saveUser = (email, displayName, method) => {
-    const user = { email, displayName };
+  const saveUser = (email, displayName, role, method) => {
+    const user = { email, displayName, role };
     fetch("http://localhost:5000/users", {
       method: method,
       headers: {
@@ -128,13 +128,12 @@ const useFirebase = () => {
     }).then();
   };
 
-  //   // admin data load
-  //   useEffect(() => {
-  //     fetch(`https://fathomless-falls-37027.herokuapp.com/users/${user.email}`)
-  //       .then((res) => res.json())
-
-  //       .then((data) => setAdmin(data.admin));
-  //   }, [user.email]);
+  // // admin data load
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/users/${user.email}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setAdmin(data.admin));
+  // }, [user.email]);
 
   return {
     registerUser,

@@ -16,13 +16,18 @@ const Login = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-
+  const role = "buyer";
   const handleLogin = (data) => {
     loginUser(data.email, data.password, location, navigate);
   };
 
-  const handelGoogleSignUp = (signInWithGoogle, location, navigate) => {
-    signInWithGoogle(location, navigate);
+  const handelGoogleSignUp = (
+    signInWithGoogle,
+    location,
+
+    navigate
+  ) => {
+    signInWithGoogle(role, location, navigate);
   };
 
   return (

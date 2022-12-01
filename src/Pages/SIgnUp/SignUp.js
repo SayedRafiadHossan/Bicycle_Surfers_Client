@@ -5,7 +5,8 @@ import useAuth from "../../hooks/useAuth";
 import img from "../../Images/signup.webp";
 
 const handelGoogleSignUp = (signInWithGoogle, location, navigate) => {
-  signInWithGoogle(location, navigate);
+  const role = "buyer";
+  signInWithGoogle(role, location, navigate);
 };
 
 const SignUp = () => {
@@ -20,7 +21,11 @@ const SignUp = () => {
   const location = useLocation();
 
   const handleSignUp = (data) => {
-    registerUser(data?.email, data?.password, data?.name, navigate);
+    const role =
+      document.getElementById("buyer-acc").checked === true
+        ? "buyer"
+        : "seller";
+    registerUser(data?.email, data?.password, data?.name, role, navigate);
   };
 
   return (

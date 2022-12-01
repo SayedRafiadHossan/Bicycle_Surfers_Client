@@ -5,13 +5,12 @@ import toast, { Toaster } from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 
 const bookCycle = (item) => {
+  delete item?._id;
   axios.post("http://localhost:5000/booking", item).then((res) => {
     if (res.data.insertedId) {
       toast.success("Booked Successfully");
     }
   });
-
-  console.log(item);
 };
 
 const CategoriesCard = () => {
@@ -87,6 +86,7 @@ const CategoriesCard = () => {
         ))}
 
         {/* Modal */}
+
         <input
           type="checkbox"
           id="booking-info-modal"

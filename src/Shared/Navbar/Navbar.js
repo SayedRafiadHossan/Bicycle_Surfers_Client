@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import img1 from "../../Images/logo.png";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const [role, setRole] = useState("buyer");
   const handleLogOut = () => {
     logout()
       .then(() => {})
       .catch((err) => console.log(err));
   };
+  useEffect(() => {
+    fetch(`http://localhost:5000/allUsers/${user?.email}`)
+      .then((res) => res.json())
+      .then((data) => setRole(data?.role));
+  }, [user?.email]);
   return (
     <div className="navbar bg-slate-100">
       <div className="dropdown lg:hidden">
@@ -45,7 +51,9 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/dashboard"
+                to={`/dashboard/${
+                  role === "buyer" ? "my-orders" : "add-products"
+                }`}
                 className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 Dashboard
@@ -106,7 +114,9 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/dashboard/id"
+                to={`/dashboard/${
+                  role === "buyer" ? "my-orders" : "add-product"
+                }`}
                 className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 Dashboard

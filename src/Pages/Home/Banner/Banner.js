@@ -46,7 +46,7 @@ const Banner = () => {
               >
                 Categories
               </button>
-              <Link to="/card">
+              <Link to="/">
                 <button
                   type="button"
                   className="px-8 py-3 m-2 text-lg border rounded dark:border-gray-700 dark:text-gray-900"

@@ -28,7 +28,7 @@ const BuyerSide = () => {
             </div>
             <div className="flex justify-between">
               <h3 className="text-xl font-semibold dark:text-teal-400">
-                Khankir Cycle
+                Road Cycle
               </h3>
               <h3 className="text-xl font-semibold dark:text-teal-400">
                 Price: 1000

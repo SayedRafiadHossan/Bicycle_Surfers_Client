@@ -7,8 +7,8 @@ import img3 from "../../Images/electrics.png";
 const Categories = () => {
   return (
     <section>
-      <h1 className="text-5xl antialiased font-semibold leading-none text-center dark:text-gray-100">
-        This is Categories.
+      <h1 className="text-4xl antialiased font-semibold leading-none text-center dark:text-gray-100">
+        Products Categories
       </h1>
       <div className="grid grid-cols-3 m-10 ml-60">
         <div className="rounded-md shadow-md sm:w-96 bg-gray-100 dark:bg-gray-900 dark:text-gray-100">

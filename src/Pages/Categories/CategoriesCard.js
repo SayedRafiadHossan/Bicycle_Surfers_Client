@@ -5,11 +5,11 @@ import toast, { Toaster } from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 
 const bookCycle = (item) => {
-  // axios.post("http://localhost:5000/booking", item).then((res) => {
-  //   if (res.data.insertedId) {
-  //     toast.success("Booked Successfully");
-  //   }
-  // });
+  axios.post("http://localhost:5000/booking", item).then((res) => {
+    if (res.data.insertedId) {
+      toast.success("Booked Successfully");
+    }
+  });
 
   console.log(item);
 };

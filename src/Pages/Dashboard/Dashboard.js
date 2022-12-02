@@ -15,7 +15,7 @@ const Dashboard = () => {
         <AdminPart></AdminPart>
       ) : page === "my-orders" ? (
         <BuyerSide></BuyerSide>
-      ) : page === "my-products" || page === "add-product" ? (
+      ) : page === "add-product" || page === "my-products" ? (
         <SellerSide></SellerSide>
       ) : (
         ""

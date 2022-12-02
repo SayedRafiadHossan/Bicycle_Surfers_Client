@@ -1,11 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 const AdminPart = () => {
   const pageParam = useParams().page;
+  const [allUsers, setAllUsers] = useState();
   useEffect(() => {
-    fetch("");
+    fetch("http://localhost:5000/allUsers")
+      .then((res) => res.json())
+      .then((data) => setAllUsers(data));
   }, []);
+  const [allBuyers, setAllBuyers] = useState();
+  const [allSellers, setAllSellers] = useState();
+  useEffect(() => {
+    setAllBuyers(allUsers?.filter((x) => x.role === "buyer"));
+    setAllSellers(allUsers?.filter((x) => x.role === "seller"));
+  }, [allUsers]);
   return (
     <div>
       <div className="flex items-center justify-end gap-3 mt-10 px-5">
@@ -35,21 +44,13 @@ const AdminPart = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className="hover">
-                  <th>1</th>
-                  <td>Hart Hagerty</td>
-                  <td>Desktop Support Technician</td>
-                </tr>
-                <tr className="hover">
-                  <th>1</th>
-                  <td>Hart Hagerty</td>
-                  <td>Desktop Support Technician</td>
-                </tr>
-                <tr className="hover">
-                  <th>1</th>
-                  <td>Hart Hagerty</td>
-                  <td>Desktop Support Technician</td>
-                </tr>
+                {allBuyers?.map((x) => (
+                  <tr key={allBuyers.indexOf(x)} className="hover">
+                    <th className="bg-gray-50">{allBuyers.indexOf(x) + 1}</th>
+                    <td className="bg-gray-50">{x?.displayName}</td>
+                    <td className="bg-gray-50">{x?.email}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -59,6 +60,26 @@ const AdminPart = () => {
           <h1 className="mt-10 text-3xl font-semibold text-center">
             All Sellers
           </h1>
+          <div className="overflow-x-auto w-1/2 mx-auto my-10">
+            <table className="table w-full">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allSellers?.map((x) => (
+                  <tr key={allSellers.indexOf(x)} className="hover">
+                    <th className="bg-gray-50">{allSellers.indexOf(x) + 1}</th>
+                    <td className="bg-gray-50">{x?.displayName}</td>
+                    <td className="bg-gray-50">{x?.email}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       ) : pageParam === "reported-items" ? (
         <div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
@@ -51,6 +51,7 @@ const productHandler = (user) => {
 const SellerSide = ({ data }) => {
   const { user } = useAuth();
   const pageParam = useParams().page;
+  useEffect(() => {}, []);
   return (
     <div>
       <div>

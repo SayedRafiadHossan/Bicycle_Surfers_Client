@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import useAuth from "../../hooks/useAuth";
 
-const paymentHandler = (productId) => {
+const paymentHandler = (productId, token) => {
   const cardName = document.getElementById("card-name").value;
   const cardNumber = document.getElementById("card-number").value;
 
@@ -10,7 +11,10 @@ const paymentHandler = (productId) => {
 
   fetch(`http://localhost:5000/booking/${productId}`, {
     method: "PUT",
-    headers: { "content-type": "application/json" },
+    headers: {
+      authorization: `Bearer ${token}`,
+      "content-type": "application/json",
+    },
     // body: JSON.stringify(user),
   })
     .then((res) => res.json())
@@ -18,14 +22,15 @@ const paymentHandler = (productId) => {
       console.log(data);
     });
 
-  // axios.post("http://localhost:5000/payment", finalData).then((res) => {
-  //   if (res.data.insertedId) {
-  //     toast.success("Payment Successful");
-  //   }
-  // });
+  axios.post("http://localhost:5000/payment", finalData).then((res) => {
+    if (res.data.insertedId) {
+      toast.success("Payment Successful");
+    }
+  });
 };
 
 const BuyerSide = () => {
+  const { token } = useAuth();
   const [myOrders, setMyOrders] = useState();
   const [productId, setProductId] = useState();
   useEffect(() => {
@@ -111,7 +116,7 @@ const BuyerSide = () => {
             <button
               className="btn btn-sm btn-info"
               onClick={() => {
-                paymentHandler(productId);
+                paymentHandler(productId, token);
                 document.getElementById("card-info-modal").checked = false;
               }}
             >

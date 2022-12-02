@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
@@ -19,6 +19,7 @@ const productHandler = (user) => {
       : document.getElementById("item-category").value === "Mountain Bikes"
       ? "mountain-bikes"
       : "electric-bikes";
+
   const itemDate = new Date().getTime();
   const itemSeller = user?.displayName;
 
@@ -47,7 +48,31 @@ const productHandler = (user) => {
   });
 };
 
-const SellerSide = () => {
+const SellerSide = ({ data }) => {
+  // const [deleteData, setDeleteData] = useState([]);
+
+  // const handleDelete = (id) => {
+  //   const proceed = window.confirm("Are you sure delete this review");
+  //   if (proceed) {
+  //     fetch(`http://localhost:5000/booking/${id}`, {
+  //       method: "DELETE",
+  //       headers: {
+  //         authorization: ` Bearer ${localStorage.getItem("genius-token")}`,
+  //       },
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         if (data.deletedCount > 0) {
+  //           alert("deleted successfully");
+  //           const remaining = deleteData.filter((odr) => odr._id !== id);
+  //           setDeleteData(remaining);
+  //         }
+  //       })
+  //       .finally(window.location.reload());
+  //   }
+  // };
+
+  // const { _id } = data;
   const { user } = useAuth();
   const pageParam = useParams().page;
   return (
@@ -151,11 +176,20 @@ const SellerSide = () => {
                   </h3>
                   <button
                     className="btn btn-sm"
+                    // onClick={() => {
+                    //   document.getElementById("card-info-modal").checked = true;
+                    // }}
+                    // onClick={() => handleDelete(_id)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="btn btn-sm"
                     onClick={() => {
                       document.getElementById("card-info-modal").checked = true;
                     }}
                   >
-                    Pay
+                    advertise
                   </button>
                 </div>
               </div>

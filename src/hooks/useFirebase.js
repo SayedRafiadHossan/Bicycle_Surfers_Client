@@ -8,6 +8,7 @@ import {
   signInWithPopup,
   updateProfile,
   signOut,
+  getIdToken,
 } from "firebase/auth";
 import firebaseAuthentication from "../firebase/FirebaseInit";
 
@@ -24,6 +25,8 @@ const useFirebase = () => {
 
   //declare admin
   const [admin, setAdmin] = useState("false");
+
+  const [token, setToken] = useState("");
 
   // declare auth
   const auth = getAuth();
@@ -95,6 +98,9 @@ const useFirebase = () => {
     const unsubscribed = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
+        getIdToken(user).then((idToken) => {
+          setToken(idToken);
+        });
       } else {
         setUser({});
       }
@@ -144,6 +150,7 @@ const useFirebase = () => {
     user,
     isLoading,
     admin,
+    token,
   };
 };
 

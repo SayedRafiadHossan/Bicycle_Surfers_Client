@@ -22,10 +22,9 @@ const CategoriesCard = () => {
   useEffect(() => {
     fetch("http://localhost:5000/allProducts")
       .then((res) => res.json())
-      .then((data) => data.filter((x) => x?.category === category))
+      .then((data) => data.filter((x) => x?.itemCategory === category))
       .then((filteredData) => setAllItems(filteredData));
   }, [category]);
-
   return (
     <>
       <div>
@@ -40,28 +39,28 @@ const CategoriesCard = () => {
             <div className="space-y-4">
               <div className="space-y-2">
                 <img
-                  src={x?.image}
+                  src={x?.itemImage}
                   alt={x?.itemName}
                   className="block object-cover object-center w-full rounded-md h-72 dark:bg-gray-500"
                 />
                 <div className="flex items-center text-xs">
-                  <span>{x?.createDate}</span>
+                  <span>{new Date(x?.itemDate).toLocaleString()}</span>
                 </div>
                 <div className="pb-2">
-                  <h2>Seller Name: {x?.sellerName}</h2>
-                  <h2>Location: {x?.location}</h2>
+                  <h2>Seller Name: {x?.itemSeller}</h2>
+                  <h2>Location: {x?.itemLocation}</h2>
                 </div>
                 <div className="card-actions justify-between">
                   <div className="badge badge-outline">
-                    Resale Price: {x?.resalePrice}
+                    Resale Price: {x?.itemRetailPrice}
                   </div>
                   <div className="badge badge-outline">
-                    Original Price: {x?.originalPrice}
+                    Original Price: {x?.itemOriginalPrice}
                   </div>
                 </div>
                 <div className="card-actions justify-center">
                   <div className="badge badge-outline">
-                    years of use: {x?.yearsOfUse}
+                    years of use: {x?.itemYearsUsed}
                   </div>
                 </div>
               </div>

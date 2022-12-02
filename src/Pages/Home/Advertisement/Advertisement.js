@@ -26,7 +26,7 @@ const Advertisement = () => {
             <div className="space-y-4">
               <div className="space-y-2">
                 <img
-                  src={x?.image}
+                  src={x?.itemImage}
                   alt={x?.itemName}
                   className="block object-cover object-center w-full rounded-md h-72 dark:bg-gray-500"
                 />
@@ -36,7 +36,7 @@ const Advertisement = () => {
                   {x?.itemName}
                 </h3>
                 <h3 className="text-xl font-semibold dark:text-teal-400">
-                  Price: {x?.resalePrice}
+                  Price: {x?.itemOriginalPrice}
                 </h3>
                 <button
                   className="btn btn-sm"

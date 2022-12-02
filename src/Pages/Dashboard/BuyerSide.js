@@ -25,6 +25,7 @@ const paymentHandler = (productId, token) => {
   axios.post("http://localhost:5000/payment", finalData).then((res) => {
     if (res.data.insertedId) {
       toast.success("Payment Successful");
+      window.location.reload();
     }
   });
 };

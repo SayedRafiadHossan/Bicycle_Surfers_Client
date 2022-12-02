@@ -8,7 +8,7 @@ const AdminPart = () => {
   const pageParam = useParams().page;
   const [allUsers, setAllUsers] = useState();
   useEffect(() => {
-    fetch("http://localhost:5000/allUsers")
+    fetch("https://best-sell-server.vercel.app/allUsers")
       .then((res) => res.json())
       .then((data) => setAllUsers(data));
   }, []);
@@ -22,7 +22,7 @@ const AdminPart = () => {
   const verifySeller = (email) => {
     const user = { email };
 
-    fetch(`http://localhost:5000/updateSellerStatus`, {
+    fetch(`https://best-sell-server.vercel.app/updateSellerStatus`, {
       method: "PUT",
       headers: {
         authorization: `Bearer ${token}`,

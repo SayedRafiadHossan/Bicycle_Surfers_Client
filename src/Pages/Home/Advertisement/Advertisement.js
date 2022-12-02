@@ -8,7 +8,7 @@ const handleReport = (item) => {
 const Advertisement = () => {
   const [adv, setAdv] = useState();
   useEffect(() => {
-    fetch("http://localhost:5000/advertise")
+    fetch("https://best-sell-server.vercel.app/advertise")
       .then((res) => res.json())
       .then((data) => setAdv(data));
   }, []);

@@ -9,7 +9,7 @@ const paymentHandler = (productId, token) => {
 
   const finalData = { cardName, cardNumber, productId };
 
-  fetch(`http://localhost:5000/booking/${productId}`, {
+  fetch(`https://best-sell-server.vercel.app/booking/${productId}`, {
     method: "PUT",
     headers: {
       authorization: `Bearer ${token}`,
@@ -22,12 +22,14 @@ const paymentHandler = (productId, token) => {
       console.log(data);
     });
 
-  axios.post("http://localhost:5000/payment", finalData).then((res) => {
-    if (res.data.insertedId) {
-      toast.success("Payment Successful");
-      window.location.reload();
-    }
-  });
+  axios
+    .post("https://best-sell-server.vercel.app/payment", finalData)
+    .then((res) => {
+      if (res.data.insertedId) {
+        toast.success("Payment Successful");
+        window.location.reload();
+      }
+    });
 };
 
 const BuyerSide = () => {
@@ -35,7 +37,7 @@ const BuyerSide = () => {
   const [myOrders, setMyOrders] = useState();
   const [productId, setProductId] = useState();
   useEffect(() => {
-    fetch("http://localhost:5000/booking")
+    fetch("https://best-sell-server.vercel.app/booking")
       .then((res) => res.json())
       .then((data) => setMyOrders(data));
   }, []);
@@ -54,7 +56,7 @@ const BuyerSide = () => {
             <div className="space-y-4">
               <div className="space-y-2">
                 <img
-                  src={x?.image}
+                  src={x?.itemImage}
                   alt={x?.itemName}
                   className="block object-cover object-center w-full rounded-md h-72 dark:bg-gray-500"
                 />
@@ -64,7 +66,7 @@ const BuyerSide = () => {
                   {x?.itemName}
                 </h3>
                 <h3 className="text-xl font-semibold dark:text-teal-400">
-                  Price: {x?.resalePrice}
+                  Price: {x?.itemOriginalPrice}
                 </h3>
                 <button
                   className={

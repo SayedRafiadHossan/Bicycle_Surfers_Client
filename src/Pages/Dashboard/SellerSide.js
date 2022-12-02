@@ -5,7 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
 
 const handleProductDelete = (id) => {
-  const url = `http://localhost:5000/allProducts/${id}`;
+  const url = `https://best-sell-server.vercel.app/allProducts/${id}`;
   fetch(url, {
     method: "DELETE",
   })
@@ -23,11 +23,13 @@ const handleProductDelete = (id) => {
 
 const advertise = (item) => {
   delete item?._id;
-  axios.post("http://localhost:5000/advertise", item).then((res) => {
-    if (res.data.insertedId) {
-      toast.success("advertised Published");
-    }
-  });
+  axios
+    .post("https://best-sell-server.vercel.app/advertise", item)
+    .then((res) => {
+      if (res.data.insertedId) {
+        toast.success("advertised Published");
+      }
+    });
 };
 
 const productHandler = (user) => {
@@ -61,17 +63,19 @@ const productHandler = (user) => {
     itemSeller,
   };
 
-  axios.post("http://localhost:5000/addProduct", data).then((res) => {
-    if (res.status === 200) {
-      document.getElementById("item-name").value = "";
-      document.getElementById("item-resell-price").value = "";
-      document.getElementById("item-original-price").value = "";
-      document.getElementById("item-years-used").value = "";
-      document.getElementById("item-Location").value = "";
-      document.getElementById("item-image").value = "";
-      toast.success("Added Successfully");
-    }
-  });
+  axios
+    .post("https://best-sell-server.vercel.app/addProduct", data)
+    .then((res) => {
+      if (res.status === 200) {
+        document.getElementById("item-name").value = "";
+        document.getElementById("item-resell-price").value = "";
+        document.getElementById("item-original-price").value = "";
+        document.getElementById("item-years-used").value = "";
+        document.getElementById("item-Location").value = "";
+        document.getElementById("item-image").value = "";
+        toast.success("Added Successfully");
+      }
+    });
 };
 
 const SellerSide = ({ data }) => {
@@ -79,7 +83,7 @@ const SellerSide = ({ data }) => {
   const pageParam = useParams().page;
   const [myProducts, setMyProducts] = useState();
   useEffect(() => {
-    fetch("http://localhost:5000/allProducts")
+    fetch("https://best-sell-server.vercel.app/allProducts")
       .then((res) => res.json())
       .then((data) => data?.filter((x) => x.sellerName === user?.displayName))
       .then((filteredData) => setMyProducts(filteredData));

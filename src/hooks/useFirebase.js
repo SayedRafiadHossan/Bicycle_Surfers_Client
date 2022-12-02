@@ -125,7 +125,7 @@ const useFirebase = () => {
   // saved user function
   const saveUser = (email, displayName, role, method) => {
     const user = { email, displayName, role };
-    fetch("http://localhost:5000/users", {
+    fetch("https://best-sell-server.vercel.app/users", {
       method: method,
       headers: {
         "content-type": "application/json",
@@ -136,7 +136,7 @@ const useFirebase = () => {
 
   // // admin data load
   // useEffect(() => {
-  //   fetch(`http://localhost:5000/users/${user.email}`)
+  //   fetch(`https://best-sell-server.vercel.app/users/${user.email}`)
   //     .then((res) => res.json())
   //     .then((data) => setAdmin(data.admin));
   // }, [user.email]);

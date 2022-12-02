@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-Live Link - [Create React App](https://wedding-photoservices.netlify.app).
+Live Link - [Create React App]().
 
 ## I havae use this project
 

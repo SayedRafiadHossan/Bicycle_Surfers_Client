@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const AdminPart = () => {
+  const { token } = useAuth();
   const pageParam = useParams().page;
   const [allUsers, setAllUsers] = useState();
   useEffect(() => {
@@ -15,6 +18,26 @@ const AdminPart = () => {
     setAllBuyers(allUsers?.filter((x) => x.role === "buyer"));
     setAllSellers(allUsers?.filter((x) => x.role === "seller"));
   }, [allUsers]);
+
+  const verifySeller = (email) => {
+    const user = { email };
+
+    fetch(`http://localhost:5000/updateSellerStatus`, {
+      method: "PUT",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount > 0) {
+          toast.success("Seller Verified");
+          window.location.reload();
+        }
+      });
+  };
   return (
     <div>
       <div className="flex items-center justify-end gap-3 mt-10 px-5">
@@ -67,14 +90,39 @@ const AdminPart = () => {
                   <th></th>
                   <th>Name</th>
                   <th>Email</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {allSellers?.map((x) => (
                   <tr key={allSellers.indexOf(x)} className="hover">
                     <th className="bg-gray-50">{allSellers.indexOf(x) + 1}</th>
-                    <td className="bg-gray-50">{x?.displayName}</td>
+                    <td className="bg-gray-50">
+                      {x?.displayName}{" "}
+                      {x?.verified === true ? (
+                        <div
+                          className="tooltip cursor-pointer"
+                          data-tip="Verified"
+                        >
+                          ✅
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </td>
                     <td className="bg-gray-50">{x?.email}</td>
+                    <td className="bg-gray-50">
+                      <button
+                        className="btn btn-sm"
+                        onClick={() => {
+                          if (x?.verified !== true) {
+                            verifySeller(x?.email);
+                          }
+                        }}
+                      >
+                        Verify
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

@@ -1,8 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
+
+const handleProductDelete = (id) => {
+  const url = `http://localhost:5000/allProducts/${id}`;
+  fetch(url, {
+    method: "DELETE",
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      const confirm = window.confirm("Do you Want to Delete?");
+      if (confirm) {
+        if (data.deletedCount > 0) {
+          toast.success("Product Deleted");
+          window.location.reload();
+        }
+      }
+    });
+};
+
+const advertise = (item) => {
+  delete item?._id;
+  axios.post("http://localhost:5000/advertise", item).then((res) => {
+    if (res.data.insertedId) {
+      toast.success("advertised Published");
+    }
+  });
+};
 
 const productHandler = (user) => {
   const itemName = document.getElementById("item-name").value;
@@ -51,7 +77,13 @@ const productHandler = (user) => {
 const SellerSide = ({ data }) => {
   const { user } = useAuth();
   const pageParam = useParams().page;
-  useEffect(() => {}, []);
+  const [myProducts, setMyProducts] = useState();
+  useEffect(() => {
+    fetch("http://localhost:5000/allProducts")
+      .then((res) => res.json())
+      .then((data) => data?.filter((x) => x.sellerName === user?.displayName))
+      .then((filteredData) => setMyProducts(filteredData));
+  }, []);
   return (
     <div>
       <div>
@@ -61,9 +93,14 @@ const SellerSide = ({ data }) => {
         <Link to="/dashboard/add-product" className="btn btn-sm">
           Add Product
         </Link>
-        <Link to="/dashboard/my-products" className="btn btn-sm">
+        <button
+          onClick={() => {
+            window.location.href = "/dashboard/my-products";
+          }}
+          className="btn btn-sm"
+        >
           My Products
-        </Link>
+        </button>
       </div>
 
       {pageParam === "add-product" ? (
@@ -134,42 +171,47 @@ const SellerSide = ({ data }) => {
           <h1 className="mt-10 text-3xl font-semibold text-center">
             My Products
           </h1>
-          <div className="grid grid-cols-3 justify-between mt-10">
-            <div className="max-w-lg p-4 shadow-md bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <img
-                    src="https://i.ibb.co/njZ85xf/logo.png"
-                    alt=""
-                    className="block object-cover object-center w-full rounded-md h-72 dark:bg-gray-500"
-                  />
-                </div>
-                <div className="flex justify-between">
-                  <h3 className="text-xl font-semibold dark:text-teal-400">
-                    Road Cycle
-                  </h3>
-                  <h3 className="text-xl font-semibold dark:text-teal-400">
-                    Price: 1000
-                  </h3>
-                  <button
-                    className="btn btn-sm"
-                    onClick={() => {
-                      document.getElementById("card-info-modal").checked = true;
-                    }}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="btn btn-sm"
-                    onClick={() => {
-                      document.getElementById("card-info-modal").checked = true;
-                    }}
-                  >
-                    advertise
-                  </button>
+          <div className="grid grid-cols-3 justify-between mt-10 gap-10">
+            {myProducts?.map((x) => (
+              <div
+                key={myProducts.indexOf(x)}
+                className="max-w-lg p-4 shadow-md bg-gray-100 dark:bg-gray-900 dark:text-gray-100"
+              >
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <img
+                      src={x?.image}
+                      alt={x?.itemName}
+                      className="block object-cover object-center w-full rounded-md h-72 dark:bg-gray-500"
+                    />
+                  </div>
+                  <div className="flex justify-between">
+                    <h3 className="text-xl font-semibold dark:text-teal-400">
+                      {x?.itemName}
+                    </h3>
+                    <h3 className="text-xl font-semibold dark:text-teal-400">
+                      Price: {x?.resalePrice}
+                    </h3>
+                    <button
+                      className="btn btn-sm"
+                      onClick={() => {
+                        handleProductDelete(x?._id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="btn btn-sm"
+                      onClick={() => {
+                        advertise(x);
+                      }}
+                    >
+                      advertise
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       ) : (

@@ -5,7 +5,6 @@ import SellerSide from "./SellerSide";
 
 const Dashboard = () => {
   const page = useParams().page;
-  // const data = useLoaderData();
 
   return (
     <div>

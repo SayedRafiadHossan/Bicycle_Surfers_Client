@@ -152,10 +152,9 @@ const SellerSide = ({ data }) => {
                   </h3>
                   <button
                     className="btn btn-sm"
-                    // onClick={() => {
-                    //   document.getElementById("card-info-modal").checked = true;
-                    // }}
-                    // onClick={() => handleDelete(_id)}
+                    onClick={() => {
+                      document.getElementById("card-info-modal").checked = true;
+                    }}
                   >
                     Delete
                   </button>

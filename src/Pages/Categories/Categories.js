@@ -24,7 +24,7 @@ const Categories = () => {
                 Road bicycle
               </h2>
               <p className="dark:text-gray-100">
-                road bikes are optimised to make road cycling as efficient as
+                road bikes are optimized to make road cycling as efficient as
                 possible, and because of that they'd perform terribly on a
                 mountain dirt track.
               </p>

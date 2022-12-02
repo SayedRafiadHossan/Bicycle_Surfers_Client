@@ -87,6 +87,7 @@ const BuyerSide = () => {
       </div>
 
       {/* modal */}
+
       <input type="checkbox" id="card-info-modal" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box relative">

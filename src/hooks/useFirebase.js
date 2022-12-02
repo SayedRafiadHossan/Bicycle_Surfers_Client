@@ -86,11 +86,16 @@ const useFirebase = () => {
         setAuthError("");
         const destination = location?.state?.from || "/";
         navigate(destination);
+        setTimeout(function () {
+          window.location.reload();
+        }, 2000);
       })
       .catch((error) => {
         setAuthError(error.message);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   // observer user state

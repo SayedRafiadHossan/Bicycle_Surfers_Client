@@ -31,7 +31,7 @@ const CategoriesCard = () => {
       <div>
         <Toaster />
       </div>
-      <div className="grid grid-cols-3 justify-between m-10">
+      <div className="grid lg:grid-cols-3 justify-between m-10">
         {allItems?.map((x) => (
           <div
             key={x._id}

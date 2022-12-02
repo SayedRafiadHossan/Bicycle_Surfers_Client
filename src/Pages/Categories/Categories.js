@@ -7,10 +7,10 @@ import img3 from "../../Images/electrics.png";
 const Categories = () => {
   return (
     <section>
-      <h1 className="text-4xl antialiased font-semibold leading-none text-center dark:text-gray-100">
+      <h1 className="text-4xl font-semibold leading-none text-center dark:text-gray-100">
         Products Categories
       </h1>
-      <div className="grid grid-cols-3 m-10 ml-60">
+      <div className="grid lg:grid-cols-3 m-10 lg:ml-60">
         <div className="rounded-md shadow-md sm:w-96 bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
           <div className="flex items-center justify-between p-3"></div>
           <img
@@ -21,7 +21,7 @@ const Categories = () => {
           <div className="flex flex-col justify-between p-6 space-y-8">
             <div className="space-y-2">
               <h2 className="text-3xl font-semibold tracking-wide">
-                Road bikes
+                Road bicycle
               </h2>
               <p className="dark:text-gray-100">
                 road bikes are optimised to make road cycling as efficient as
@@ -44,7 +44,7 @@ const Categories = () => {
           <div className="flex flex-col justify-between p-6 space-y-8">
             <div className="space-y-2">
               <h2 className="text-3xl font-semibold tracking-wide">
-                Mountain bikes
+                Mountain bicycle
               </h2>
               <p className="dark:text-gray-100">
                 Wide, knobbly tyres for traction, and a wide range of gears to
@@ -66,7 +66,7 @@ const Categories = () => {
           <div className="flex flex-col justify-between p-6 space-y-8">
             <div className="space-y-2">
               <h2 className="text-3xl font-semibold tracking-wide">
-                Electric bikes
+                Electric bicycle
               </h2>
               <p className="dark:text-gray-100">
                 They have a battery and a silent motor, and because of this

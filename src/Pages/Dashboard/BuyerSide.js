@@ -44,7 +44,7 @@ const BuyerSide = () => {
         <Toaster />
       </div>
       <h1 className="mt-10 text-3xl font-semibold text-center">My Orders</h1>
-      <div className="grid grid-cols-3 justify-between m-10 gap-10">
+      <div className="grid lg:grid-cols-3 justify-between m-10 gap-10">
         {myOrders?.map((x) => (
           <div
             key={myOrders.indexOf(x)}

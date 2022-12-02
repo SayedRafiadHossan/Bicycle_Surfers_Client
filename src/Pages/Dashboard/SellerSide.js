@@ -49,30 +49,6 @@ const productHandler = (user) => {
 };
 
 const SellerSide = ({ data }) => {
-  // const [deleteData, setDeleteData] = useState([]);
-
-  // const handleDelete = (id) => {
-  //   const proceed = window.confirm("Are you sure delete this review");
-  //   if (proceed) {
-  //     fetch(`http://localhost:5000/booking/${id}`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         authorization: ` Bearer ${localStorage.getItem("genius-token")}`,
-  //       },
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         if (data.deletedCount > 0) {
-  //           alert("deleted successfully");
-  //           const remaining = deleteData.filter((odr) => odr._id !== id);
-  //           setDeleteData(remaining);
-  //         }
-  //       })
-  //       .finally(window.location.reload());
-  //   }
-  // };
-
-  // const { _id } = data;
   const { user } = useAuth();
   const pageParam = useParams().page;
   return (
